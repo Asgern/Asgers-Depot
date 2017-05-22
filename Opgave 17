@@ -1,0 +1,52 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+const char TAB = '\t';
+
+int main()
+{
+	char c;
+	string inname, outname;
+	ofstream newfile;
+	ifstream oldfile;
+
+	cout << "indtast navn på input fil ";
+	cin >> inname;
+	oldfile.open(inname.c_str());
+	if (oldfile.fail())
+	{
+		cerr << "Fejl " << inname << endl;
+		exit(1);
+	}
+	outname = "new" + inname;
+	newfile.open(outname.c_str());
+
+	oldfile.get(c);
+	while (!oldfile.eof())
+	{
+		switch (c)
+		{
+		case TAB:
+		case ' ':
+			/*  Ignorer white space.  */
+			break;
+		case ',':
+			/* Erstat komma med mellemrum   */
+			newfile << ' ';
+			break;
+		default:
+			/*  Enten ciffer eller EOF  */
+			newfile << c;
+			break;
+		}
+		oldfile.get(c);
+	}  
+
+	newfile.close();
+	oldfile.close();
+	system("pause");
+	return 0;
+}
